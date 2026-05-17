@@ -18,3 +18,45 @@ model User {
   email String  @unique
   name  String?
 }
+
+model Candidate {
+  id                Int              @id @default(autoincrement())
+  firstName         String
+  lastName          String
+  email             String           @unique
+  phone             String?
+  addressStreet     String?
+  addressCity       String?
+  addressPostalCode String?
+  addressCountry    String?
+  cvFilePath        String?
+  cvOriginalName    String?
+  cvMimeType        String?
+  cvSizeBytes       Int?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  educations        Education[]
+  experiences       WorkExperience[]
+}
+
+model Education {
+  id           Int       @id @default(autoincrement())
+  candidateId  Int
+  candidate    Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  institution  String
+  degree       String
+  fieldOfStudy String?
+  startDate    DateTime
+  endDate      DateTime?
+}
+
+model WorkExperience {
+  id          Int       @id @default(autoincrement())
+  candidateId Int
+  candidate   Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  company     String
+  position    String
+  description String?
+  startDate   DateTime
+  endDate     DateTime?
+}

@@ -1,26 +1,13 @@
-import { Request, Response, NextFunction } from 'express';
-import express from 'express';
-import { PrismaClient } from '@prisma/client';
 import dotenv from 'dotenv';
+import { createApp } from './app';
 
 dotenv.config();
-const prisma = new PrismaClient();
 
-export const app = express();
-export default prisma;
+const port = Number.parseInt(process.env.PORT ?? '3010', 10);
 
-const port = 3010;
-
-app.get('/', (req, res) => {
-  res.send('Hola LTI!');
-});
-
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  console.error(err.stack);
-  res.type('text/plain'); 
-  res.status(500).send('Something broke!');
-});
+const app = createApp();
 
 app.listen(port, () => {
+  // eslint-disable-next-line no-console
   console.log(`Server is running at http://localhost:${port}`);
 });

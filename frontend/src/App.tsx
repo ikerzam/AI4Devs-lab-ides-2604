@@ -1,25 +1,38 @@
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { DashboardPage } from './pages/DashboardPage';
+import { CandidateFormPage } from './pages/CandidateFormPage';
+import { CandidateDetailPage } from './pages/CandidateDetailPage';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <BrowserRouter>
+      <a href="#main-content" className="skip-link">
+        Saltar al contenido
+      </a>
+      <header className="app-header">
+        <Link to="/" className="app-brand">
+          LTI ATS
+        </Link>
       </header>
-    </div>
+      <div id="main-content">
+        <Routes>
+          <Route path="/" element={<DashboardPage />} />
+          <Route path="/candidates/new" element={<CandidateFormPage />} />
+          <Route path="/candidates/:id" element={<CandidateDetailPage />} />
+          <Route
+            path="*"
+            element={
+              <main className="page">
+                <h1>Página no encontrada</h1>
+                <Link to="/">Volver al dashboard</Link>
+              </main>
+            }
+          />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 
